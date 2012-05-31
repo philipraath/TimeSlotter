@@ -7,7 +7,7 @@
         </title>
         <link rel="stylesheet" href="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" />
         <style>
-            /* App custom styles */
+        
         </style>
         <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js">
         </script>
@@ -19,7 +19,7 @@
 	
 	<script type="text/javascript">
         window.onload = function() {
-            Sortable.create('namelist', {tag:'li'});
+            Sortable.create('namelist', {tag:'li', only: 'sortable'});
         }
 	</script>
 	
@@ -38,20 +38,20 @@
             </div>
             <div data-role="content">
                 <ul id= "namelist" data-role="listview" data-divider-theme="b" data-inset="false">
-                    <li data-role="list-divider" role="heading">
+                    <li data-role="list-divider" role="heading" class = "nonsortable">
                         6:00 - 9:00 (early morning)
                     </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
+                    <li data-theme="c" class = "sortable">
+                        <a href="#page1" data-transition="slide" >
                             Task Number 1
                         </a>
                     </li>
-                    <li data-theme="c">
-                        <a href="#page1" data-transition="slide">
+                    <li data-theme="c" class = "sortable">
+                        <a href="#page1" data-transition="slide" class = "sortable">
                             Task Number 2
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 3
                         </a>
@@ -59,12 +59,12 @@
                     <li data-role="list-divider" role="heading">
                         9:00 - 12:00 (late morning)
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 4
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 5
                         </a>
@@ -72,12 +72,12 @@
                     <li data-role="list-divider" role="heading">
                         12:00 - 3:00 (early afternoon)
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 6
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 7
                         </a>
@@ -85,17 +85,17 @@
                     <li data-role="list-divider" role="heading">
                         3:00 - 6:00 (late afternoon)
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 8
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 9
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 10
                         </a>
@@ -103,12 +103,12 @@
                     <li data-role="list-divider" role="heading">
                         6:00 - 9:00 (early evening)
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 11
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 12
                         </a>
@@ -116,17 +116,17 @@
                     <li data-role="list-divider" role="heading">
                         9:00 - 12:00 (late evening)
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 13
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 14
                         </a>
                     </li>
-                    <li data-theme="c">
+                    <li data-theme="c" class = "sortable">
                         <a href="#page1" data-transition="slide">
                             Task Number 15
                         </a>
