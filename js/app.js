@@ -1,11 +1,9 @@
 // wait for page elements to load
 $(document).ready(function () {
 
-	// set default state onload
-	$('body').trigger('state', 'view');
-
 	// create state change event
-	$('body').bind('state', function(type){
+	$('body').bind('state', function(e, type){
+
 		switch(type) {
 			
 			case 'view':
@@ -18,7 +16,11 @@ $(document).ready(function () {
 				console.log('changing state to "move"');
 				break;
 		}
+		
 	});
+	
+	// set default state onload
+	$('body').trigger('state', 'view');	
 	
 	// create an event that initiates moving a todo item
 	$('.todo').click(function(e){
@@ -26,7 +28,7 @@ $(document).ready(function () {
 		if ($('body').hasClass('move')) {
 			
 			// insert the detached item in this slot
-			$(this).after($selectedToDo);
+			$(this).before($selectedToDo);
 			console.log('inserted item');			
 
 			// trigger global state change
