@@ -1,0 +1,5 @@
+
+/* task items */
+li.sortable, li.sortable a {
+	cursor: move
+	}
