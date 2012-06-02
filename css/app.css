@@ -3,3 +3,9 @@
 li.sortable, li.sortable a {
 	cursor: move
 	}
+
+li.sortable { 
+	}
+
+li.sortable.ui-state-highlight { 
+	}	

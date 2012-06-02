@@ -1,6 +1,12 @@
-window.onload = function() {
+// wait for page elements to load
+$(document).ready(function () {
 
-	// init drag-n-drop
-	Sortable.create('namelist', {tag:'li', only: 'sortable'});
-
-}
+	// init sortable
+	$(function() {
+		$( "#namelist" ).sortable({
+			items: ".sortable"
+		});
+		$( "#namelist" ).disableSelection();
+	});
+	
+});
