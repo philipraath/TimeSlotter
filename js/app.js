@@ -22,13 +22,15 @@ $(document).ready(function () {
 	// set default state onload
 	$('body').trigger('state', 'view');	
 	
-	// create an event that initiates moving a todo item
-	$('.todo').click(function(e){
-		
+	var $poppedTodo;
+	
+	// timeslot click
+	$('.timeslot').click(function(e){
+
 		if ($('body').hasClass('move')) {
-			
+
 			// insert the detached item in this slot
-			$(this).before($selectedToDo);
+			$(this).after($poppedTodo);
 			console.log('inserted item');			
 
 			// trigger global state change
@@ -36,14 +38,44 @@ $(document).ready(function () {
 
 		} else {
 
-			// remove this todo item but save reference
-			$selectedToDo = $(this).detach();
+			console.log('timeslot should insert item');
+			alert('insert item into this timeslot');
+			return false;
+
+		}
+
+	});
+
+
+	// todo item click
+	$('.item-body').click(function(e){
+
+		if ($('body').hasClass('move')) {
+
+			// insert the detached item in this slot
+			$(this).closest('.todo').after($poppedTodo);
+			console.log('inserted item');			
 
 			// trigger global state change
-			$('body').trigger('state', 'move');
-			
+			$('body').trigger('state', 'view');
+
+		} else {
+
+			return false;
+
 		}
+
+	});
+
+	// create an event that initiates moving a todo item
+	$('.move-btn').click(function(e){
 		
+		// remove this todo item but save reference
+		$poppedTodo = $(this).closest('.todo').detach();
+
+		// trigger global state change
+		$('body').trigger('state', 'move');			
+
 	});
 	
 });

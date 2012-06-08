@@ -1,5 +1,14 @@
 
 /* task items */
 .move li.todo	{
-	opacity:0.1;
+	opacity:0.3;
+}
+
+.move .move-btn {
+	display:none;
+}
+
+.timeslot {
+	text-align:center;
+	padding:1.5em 0 .5em 0;
 }
