@@ -1,7 +1,11 @@
 
 /* task items */
-.move li.todo	{
-	opacity:0.3;
+.move li.todo	a.item-body {
+	color:#336;
+}
+
+.move li.popped {
+	opacity:0.1;
 }
 
 .move .move-btn {

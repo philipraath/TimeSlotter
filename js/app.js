@@ -22,24 +22,30 @@ $(document).ready(function () {
 	// set default state onload
 	$('body').trigger('state', 'view');	
 	
+	// reference to todo item that's been flagged for move
 	var $poppedTodo;
 	
 	// timeslot click
-	$('.timeslot').click(function(e){
+	$('.timeslot').live('click', function(e){
 
 		if ($('body').hasClass('move')) {
 
 			// insert the detached item in this slot
-			$(this).after($poppedTodo);
-			console.log('inserted item');			
+			$poppedTodo.insertAfter($(this)).removeClass('popped');
+			console.log('inserted item');
 
 			// trigger global state change
 			$('body').trigger('state', 'view');
 
 		} else {
 
-			console.log('timeslot should insert item');
-			alert('insert item into this timeslot');
+      // insert a placeholder item
+			$('<li class="todo"><a data-icon="check" class="item-body" href="#">random todo</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
+			console.log('new todo inserted');
+			
+			// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
+			$(this).parent().listview('refresh');
+			
 			return false;
 
 		}
@@ -48,12 +54,20 @@ $(document).ready(function () {
 
 
 	// todo item click
-	$('.item-body').click(function(e){
+	$('.item-body').live('click', function(e){
+		
+		// catch if clicked todo item is the one being moved (basically cancels move)
+		if ($(this).closest('.todo').hasClass('popped')) {
+			console.log('canceling move');
+			$(this).removeClass('popped');
+			$('body').trigger('state', 'view');	
+			return false;
+		}
 
 		if ($('body').hasClass('move')) {
 
 			// insert the detached item in this slot
-			$(this).closest('.todo').after($poppedTodo);
+			$poppedTodo.insertAfter($(this).closest('.todo')).removeClass('popped');
 			console.log('inserted item');			
 
 			// trigger global state change
@@ -68,10 +82,10 @@ $(document).ready(function () {
 	});
 
 	// create an event that initiates moving a todo item
-	$('.move-btn').click(function(e){
+	$('.move-btn').live('click', function(e){
 		
 		// remove this todo item but save reference
-		$poppedTodo = $(this).closest('.todo').detach();
+		$poppedTodo = $(this).closest('.todo').addClass('popped');
 
 		// trigger global state change
 		$('body').trigger('state', 'move');			
