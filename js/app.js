@@ -31,11 +31,8 @@ $(document).ready(function () {
 		switch(get_state()) {
 
 			case 'view':
-	      // insert a placeholder item
-				$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
-				// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
-				$(this).parent().listview('refresh');
-				set_state('edit');
+				// complete/uncomplete this todo item
+				alert('complete/uncomplete item');
 				break;
 
 			case 'move':
@@ -86,6 +83,12 @@ $(document).ready(function () {
 	}).on('updateText', '.todo', function(e){
 		$(this).removeClass('active').find('.item-body').text($("#todotext").val());
 		set_state('view');
+	}).on('taphold', '.item-body', function(e){
+		// insert a placeholder item
+		$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
+		// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
+		$(this).parent().listview('refresh');
+		set_state('edit');    
 	});
 	
 
