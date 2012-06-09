@@ -29,3 +29,11 @@
 #editbox .ui-field-contain {
   margin:0;
 }
+
+li.todo.completed {
+	text-decoration:line-through;
+}
+
+li.todo.completed a.item-body {
+	color:#999;
+}

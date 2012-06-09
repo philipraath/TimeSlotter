@@ -55,7 +55,8 @@ $(document).ready(function () {
 			switch(get_state()) {
 
 				case 'view':
-					alert('complete/uncomplete');
+					// complete/uncomplete
+					$(this).closest('.todo').toggleClass('completed');
 					break;
 
 				case 'move':
