@@ -68,6 +68,8 @@ $(document).ready(function () {
 
 
 	/*
+	 * Helper Functions
+	 */
 
 	// helper function to check state of app
 	function get_state() {
@@ -75,8 +77,6 @@ $(document).ready(function () {
 	}
 
 
-	// create an event that initiates moving a todo item
-	$('.move-btn').live('click', function(e){
 	/*
 	 * Init
 	 */
@@ -84,8 +84,6 @@ $(document).ready(function () {
 	// set default state onload
 	$('body').trigger('state', 'view');	
 		
-
-		$('body').trigger('state', 'move');			
 	// reference to currently active todo item
 	var $activeTodo;
 
