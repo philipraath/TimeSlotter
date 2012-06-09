@@ -21,3 +21,11 @@
 	text-align:center;
 	padding:1.5em 0 .5em 0;
 }
+
+#editbox {
+	padding:0 0 0 1em;
+}
+
+#editbox .ui-field-contain {
+  margin:0;
+}
