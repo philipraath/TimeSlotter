@@ -31,8 +31,11 @@ $(document).ready(function () {
 		switch(get_state()) {
 
 			case 'view':
-				// complete/uncomplete this todo item
-				alert('complete/uncomplete item');
+	      // insert a placeholder item
+				$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
+				// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
+				$(this).parent().listview('refresh');
+				set_state('edit');
 				break;
 
 			case 'move':
@@ -47,31 +50,61 @@ $(document).ready(function () {
 
 		}
 	// bodytext click/tap event
-	}).on('click', '.item-body', function(e){
-		switch(get_state()) {
+	}).on({
+		click: function(e){
+			switch(get_state()) {
 
-			case 'view':
-				$activeTodo = $(this).closest('.todo');
-				set_state('edit');				
-				break;			
+				case 'view':
+					alert('complete/uncomplete');
+					break;
 
-			case 'move':
-				if ($(this).closest('.todo').hasClass('popped')) {
-					// cancel move if clicked on the popped todo
-					$(this).removeClass('popped');
-					set_state('view');	
-				} else {
-					// insert the detached item in this slot
-					$activeTodo.insertAfter($(this).closest('.todo')).removeClass('popped');
-					set_state('view');				
-				}
-				break;
+				case 'move':
+					if ($(this).closest('.todo').hasClass('popped')) {
+						// cancel move if clicked on the popped todo
+						$(this).removeClass('popped');
+						set_state('view');	
+					} else {
+						// insert the detached item in this slot
+						$activeTodo.insertAfter($(this).closest('.todo')).removeClass('popped');
+						set_state('view');				
+					}
+					break;
 
-			case 'edit':
-				set_state('view');
-				break;			
+				case 'edit':
+					set_state('view');
+					break;			
 
-		}
+			}
+			
+		},	
+		taphold: function(e){		
+			switch(get_state()) {
+
+				case 'view':
+					$activeTodo = $(this).closest('.todo');
+					set_state('edit');
+					break;
+
+				case 'move':
+					if ($(this).closest('.todo').hasClass('popped')) {
+						// cancel move if clicked on the popped todo
+						$(this).removeClass('popped');
+						set_state('view');	
+					} else {
+						// insert the detached item in this slot
+						$activeTodo.insertAfter($(this).closest('.todo')).removeClass('popped');
+						set_state('view');				
+					}
+					break;
+
+				case 'edit':
+					set_state('view');
+					break;			
+
+			}
+
+		}	
+		
 	// move-btn click/tap event
 	}).on('click', '.move-btn', function(e){
 
@@ -83,12 +116,6 @@ $(document).ready(function () {
 	}).on('updateText', '.todo', function(e){
 		$(this).removeClass('active').find('.item-body').text($("#todotext").val());
 		set_state('view');
-	}).on('taphold', '.item-body', function(e){
-		// insert a placeholder item
-		$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
-		// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
-		$(this).parent().listview('refresh');
-		set_state('edit');    
 	});
 	
 
