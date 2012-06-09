@@ -7,16 +7,19 @@ $(document).ready(function () {
 
 			case 'view':
 				$('body').removeClass().addClass("view");
+				console.log('view');
 				break;
 							
 			case 'move':
 				$('body').removeClass().addClass("move");
+				console.log('move');
 				break;
 
 			case 'edit':
 				$('body').removeClass().addClass("edit");
 				$activeTodo.append($("#editbox")).addClass('active');
 				$('#editbox').show();
+				console.log('edit');
 				break;
 
 		}		
@@ -52,7 +55,6 @@ $(document).ready(function () {
 			case 'move':
 				if ($(this).closest('.todo').hasClass('popped')) {
 					// cancel move if clicked on the popped todo
-					console.log('canceling move');
 					$(this).removeClass('popped');
 					$('body').trigger('state', 'view');	
 				} else {
