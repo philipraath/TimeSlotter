@@ -100,7 +100,6 @@ $(document).ready(function () {
 	// render the editbox with jquerymobile styles manually b/c outside page on load
 	$("#editbox").trigger('create').hide().submit(function(e){
 		e.preventDefault();
-		alert('submited');
 	});
 	
 });
