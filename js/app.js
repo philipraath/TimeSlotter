@@ -106,7 +106,7 @@ $(document).ready(function () {
 		}	
 		
 	// move-btn click/tap event
-	}).on('click', '.move-btn', function(e){
+	}, '.item-body').on('click', '.move-btn', function(e){
 
 		// flag todo as in process of being moved
 		$activeTodo = $(this).closest('.todo').addClass('popped');
