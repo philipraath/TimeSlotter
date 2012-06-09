@@ -13,6 +13,11 @@ $(document).ready(function () {
 				$('body').removeClass().addClass("move");
 				break;
 
+			case 'edit':
+				$('body').removeClass().addClass("edit");
+				$activeTodo.append($("#editbox")).addClass('active');
+				$('#editbox').show();
+				break;
 
 		}		
 	// timeslot click/tap event
@@ -24,6 +29,7 @@ $(document).ready(function () {
 				$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#">random item</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
 				// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
 				$(this).parent().listview('refresh');
+				$('body').trigger('state', 'edit');
 				break;
 
 			case 'move':
@@ -32,6 +38,8 @@ $(document).ready(function () {
 				$('body').trigger('state', 'view');
 				break;
 
+			case 'edit':
+				break;			
 
 		}
 	// bodytext click/tap event
@@ -54,6 +62,8 @@ $(document).ready(function () {
 				}
 				break;
 
+			case 'edit':
+				break;			
 
 		}
 	// move-btn click/tap event
@@ -87,6 +97,10 @@ $(document).ready(function () {
 	// reference to currently active todo item
 	var $activeTodo;
 
+	// render the editbox with jquerymobile styles manually b/c outside page on load
+	$("#editbox").trigger('create').hide().submit(function(e){
+		e.preventDefault();
+		alert('submited');
 	});
 	
 });

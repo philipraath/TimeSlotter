@@ -12,6 +12,11 @@
 	display:none;
 }
 
+.edit .active .ui-btn-inner,
+.edit .active .move-btn {
+  display:none;
+}
+
 .timeslot {
 	text-align:center;
 	padding:1.5em 0 .5em 0;
