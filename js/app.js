@@ -21,7 +21,7 @@ $(document).ready(function () {
 				$('body').removeClass().addClass("edit");
 				$activeTodo.append($("#editbox")).addClass('active');
 				$('#todotext').val($activeTodo.find('.item-body').text());
-				$('#editbox').show();
+				$('#editbox').show().focus();
 				console.log('edit');
 				break;
 
