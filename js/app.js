@@ -32,7 +32,7 @@ $(document).ready(function () {
 
 			case 'view':
 	      // insert a placeholder item
-				$activeTodo = $('<li class="todo"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
+				$activeTodo = $('<li class="todo" data-uuid="'+ newUUID() +'"><a data-icon="check" class="item-body" href="#"></a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter($(this));
 				// trigger jquerymobile's listview widget to rewrap all the todo items so that new elements created are rendered with the listview styles/functions/attributes/etc. 
 				$(this).parent().listview('refresh');
 				set_state('edit');
@@ -131,6 +131,14 @@ $(document).ready(function () {
 	}
 	function set_state(state) {
 		$('body').trigger('state', state);
+	}
+
+	// helper function to create a UUID (approximate, not 100% reliable) from http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+	function newUUID() {
+	  var S4 = function() {
+	    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+	  };
+	  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
 	}
 
 
