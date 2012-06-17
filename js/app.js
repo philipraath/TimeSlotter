@@ -15,7 +15,7 @@ $(document).ready(function () {
 			$('body').on({ 
 				
 				// tapping ".timeslot"...
-				tap: function(e){
+				click: function(e){
 					timeslot = $(this).attr('data-timeslot');
 					date = $(this).closest('.day').attr('data-date');
 					sort = $(this).next('li').attr('data-sort') + 1; 
@@ -47,7 +47,7 @@ $(document).ready(function () {
 			}, '.timeslot').on({ 
 				
 				// tapping ".item-body"...
-				tap: function(e){
+				click: function(e){
 					$tappedTodo = $(this).closest('.todo');
 					timeslot = $tappedTodo.prev('.timeslot').attr('data-timeslot');
 					date = $tappedTodo.closest('.day').attr('data-date');
@@ -85,7 +85,7 @@ $(document).ready(function () {
 			}, '.item-body').on({
 				
 				// tapping '.move-btn'...
-				tap: function(e){
+				click: function(e){
 					switch(Timeslotter.state) {
 						case 'view':
 							// prepares todo to be moved
