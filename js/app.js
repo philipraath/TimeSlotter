@@ -103,7 +103,7 @@ $(document).ready(function () {
 			}, '.move-btn').on({
 				
 				// swipeing left moves to next page
-				swipeLeft: function(e){
+				swipeleft: function(e){
 					alert('swiped left');
 					$page = $.mobile.activePage.next('.day');
 					if ($page.length > 0) {	
@@ -115,7 +115,7 @@ $(document).ready(function () {
 				},
 				
 				// swipeing right moves to previous page
-				swipeRight: function(e){
+				swiperight: function(e){
 					alert('swiped right');
 					$page = $.mobile.activePage.prev('.day');
 					if ($page.length > 0) {	
