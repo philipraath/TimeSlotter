@@ -91,7 +91,6 @@ $(document).ready(function () {
 							// prepares todo to be moved
 							Timeslotter.activeTodo = $(this).closest('.todo');
 							Timeslotter.setState('move');
-							alert('tapped move-btn');
 							break;
 						case 'edit': 
 							// cancels editing
@@ -104,7 +103,6 @@ $(document).ready(function () {
 				
 				// swipeing left moves to next page
 				swipeleft: function(e){
-					alert('swiped left');
 					$page = $.mobile.activePage.next('.day');
 					if ($page.length > 0) {	
 						$.mobile.changePage($page);						
@@ -116,7 +114,6 @@ $(document).ready(function () {
 				
 				// swipeing right moves to previous page
 				swiperight: function(e){
-					alert('swiped right');
 					$page = $.mobile.activePage.prev('.day');
 					if ($page.length > 0) {	
 						$.mobile.changePage($page);						
