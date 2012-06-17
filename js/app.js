@@ -88,9 +88,10 @@ $(document).ready(function () {
 				tap: function(e){
 					switch(Timeslotter.state) {
 						case 'view':
-							// prepares todo to be moved					
+							// prepares todo to be moved
 							Timeslotter.activeTodo = $(this).closest('.todo');
 							Timeslotter.setState('move');
+							alert('tapped move-btn');
 							break;
 						case 'edit': 
 							// cancels editing
@@ -103,6 +104,7 @@ $(document).ready(function () {
 				
 				// swipeing left moves to next page
 				swipeLeft: function(e){
+					alert('swiped left');
 					$page = $.mobile.activePage.next('.day');
 					if ($page.length > 0) {	
 						$.mobile.changePage($page);						
@@ -114,6 +116,7 @@ $(document).ready(function () {
 				
 				// swipeing right moves to previous page
 				swipeRight: function(e){
+					alert('swiped right');
 					$page = $.mobile.activePage.prev('.day');
 					if ($page.length > 0) {	
 						$.mobile.changePage($page);						
@@ -123,7 +126,7 @@ $(document).ready(function () {
 					}
 				},					
 				
-			});
+			}, '.day');
 
 			// renders the editbox with jquerymobile styles since it's outside the page's HTML
 			// and on submit saves the data and updates display
