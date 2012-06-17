@@ -2,6 +2,7 @@
 /* task items */
 .move li.todo	a.item-body {
 	color:#336;
+	opacity:0.5;
 }
 
 .move li.popped {
