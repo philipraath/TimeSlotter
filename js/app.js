@@ -111,7 +111,7 @@ $(document).ready(function () {
 				
 				// swipeing right moves to previous page
 				swiperight: function(e){
-					Timeslotter.currentDay.subtract('days', 1);
+					Timeslotter.day.subtract('days', 1);
 					Timeslotter.viewDay();
 				},
 				
