@@ -12,86 +12,21 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script src="http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.js"></script>
+		<script type="text/javascript" src="js/moment.min.js"></script>
 		<!-- app scripts -->		
 		<script type="text/javascript" src="js/app.js"></script>
   </head>  
   <body>
 	
-		<!-- day 1 -->
-    <div data-role="page" id="day-20120712" data-day="20120712" class="day">
+    <!-- todos by day page -->
+    <div data-role="page">
+
 			<!-- header -->
-      <div data-theme="a" data-role="header" data-position="fixed">
+      <div id="days-header" data-theme="a" data-role="header" data-position="fixed">
         <h4>TUESDAY—June 12, 2012</h4>
       </div>
-			<!-- content -->
-      <div data-role="content">
-        <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false">                    
-          <!-- early morning -->
-          <li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li>
-          <!-- mid-morning -->
-          <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li>
-          <!-- afternoon -->
-          <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li>
-          <!-- late afternoon -->
-          <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li>
-          <!-- evening -->
-          <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li>
-          <!-- late evening -->
-          <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>
-        </ul>
-      </div>
-    </div><!-- /day 1 -->
-    
-		<!-- day 2 -->
-    <div data-role="page" id="day-20120713" data-day="20120713" class="day">
-			<!-- header -->
-      <div data-theme="a" data-role="header" data-position="fixed">
-        <h4>WEDNESDAY—June 13, 2012</h4>
-      </div>
-			<!-- content -->
-      <div data-role="content">
-        <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false">                    
-          <!-- early morning -->
-          <li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li>
-          <!-- mid-morning -->
-          <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li>
-          <!-- afternoon -->
-          <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li>
-          <!-- late afternoon -->
-          <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li>
-          <!-- evening -->
-          <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li>
-          <!-- late evening -->
-          <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>
-        </ul>
-      </div>
-    </div><!-- /day 2 -->
-    
-		<!-- day 3 -->
-    <div data-role="page" id="day-20120714" data-day="20120714" class="day">
-			<!-- header -->
-      <div data-theme="a" data-role="header" data-position="fixed">
-        <h4>THURSDAY—June 14, 2012</h4>
-      </div>
-			<!-- content -->
-      <div data-role="content">
-        <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false">                    
-          <!-- early morning -->
-          <li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li>
-          <!-- mid-morning -->
-          <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li>
-          <!-- afternoon -->
-          <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li>
-          <!-- late afternoon -->
-          <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li>
-          <!-- evening -->
-          <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li>
-          <!-- late evening -->
-          <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>
-        </ul>
-      </div>
-    </div><!-- /day 3 -->
 
+    </div><!-- /page -->
 
     <form id="editbox" data-ajax="false">
       <div data-role="fieldcontain" class="ui-hide-label">

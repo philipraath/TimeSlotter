@@ -38,3 +38,11 @@ li.todo.completed {
 li.todo.completed a.item-body {
 	color:#999;
 }
+
+.day {
+	display:none;
+}
+
+.day.active {
+	display:block;
+}

@@ -5,6 +5,8 @@ $(document).ready(function () {
 
 		activeTodo:null,
 		state:'',
+		day: moment(),
+		activeDay: null,
 		
 		init: function() {
 			
@@ -103,28 +105,21 @@ $(document).ready(function () {
 				
 				// swipeing left moves to next page
 				swipeleft: function(e){
-					$page = $.mobile.activePage.next('.day');
-					if ($page.length > 0) {	
-						$.mobile.changePage($page);						
-						console.log('page changed to '+ $page.attr('id'));
-					} else {
-						console.log('no more days')
-					}
+					Timeslotter.day.add('days', 1);
+					Timeslotter.viewDay();
 				},
 				
 				// swipeing right moves to previous page
 				swiperight: function(e){
-					$page = $.mobile.activePage.prev('.day');
-					if ($page.length > 0) {	
-						$.mobile.changePage($page);						
-						console.log('page changed to '+ $page.attr('id'));
-					} else {
-						console.log('no more days')
-					}
-				},					
+					Timeslotter.currentDay.subtract('days', 1);
+					Timeslotter.viewDay();
+				},
 				
 			}, '.day');
-
+			
+			// show today's todos by default
+			Timeslotter.viewDay();
+			
 			// renders the editbox with jquerymobile styles since it's outside the page's HTML
 			// and on submit saves the data and updates display
 			$("#editbox").trigger('create').submit(function(e){
@@ -169,7 +164,7 @@ $(document).ready(function () {
 				
 			}
 		},
-		
+					
 		// save a todo to the db, if no uuid then create a new item
 		// returns uuid on success, 0 on failure
 		saveTodo: function(data) {
@@ -185,12 +180,18 @@ $(document).ready(function () {
 		// show a single day view
 		// checks for existance, creates from db if not present
 		viewDay: function(date) {
-			$day = $("#day-"+date);
-			if ($day.length == 0) {
-				// pull from db
-			} 
-			// switch to this page
-			
+			if (Timeslotter.activeDay) Timeslotter.activeDay.removeClass('active');
+			id = Timeslotter.day.format('YYYY-MM-DD');
+			title = Timeslotter.day.format('dddd, MMM D');
+			$('#days-header h4').text(title);
+			Timeslotter.activeDay = $('#day-' + id );
+			if (Timeslotter.activeDay.length < 1) {
+				$("#days-header").after('<div data-role="content" class="day active" data-day="'+ id +'" id="day-'+ id +'">  <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false"><!-- early morning --><li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li><!-- mid-morning --> <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li><!-- afternoon --> <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li> <!-- late afternoon --> <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li> <!-- evening --> <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li> <!-- late evening --> <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>  </ul></div><!-- /day -->');
+				Timeslotter.activeDay = $('#day-' + id );
+			}
+			Timeslotter.activeDay.find('.day-todo-list').listview().listview('refresh');
+			Timeslotter.activeDay.addClass('active');
+			console.log('view day '+id);
 		}
 
 	}
