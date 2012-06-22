@@ -20,7 +20,8 @@ $(document).ready(function () {
 				click: function(e){
 					timeslot = $(this).attr('data-timeslot');
 					date = $(this).closest('.day').attr('data-date');
-					sort = $(this).next('li').attr('data-sort') + 1; 
+					sort = $(this).next('li').attr('data-sort');
+					sort = (sort)? sort + 1 : 0;
 					switch(Timeslotter.state) {
 						case 'view':
 							// creates new todo
@@ -170,6 +171,8 @@ $(document).ready(function () {
 		// returns uuid on success, 0 on failure
 		saveTodo: function(data) {
 			uuid = (data['uuid'] === undefined)? newUUID() : data['uuid'];
+			console.log(data);
+			console.log(uuid);
 			return uuid;
 		},
 		
