@@ -91,7 +91,7 @@ $(document).ready(function () {
 					switch(Timeslotter.state) {
 						case 'view':
 							// prepares todo to be moved
-							Timeslotter.activeTodo = $(this).closest('.todo');
+							Timeslotter.activeTodo = $(this).closest('li.todo');
 							Timeslotter.setState('move');
 							break;
 						case 'edit': 
@@ -149,6 +149,7 @@ $(document).ready(function () {
 
 				case 'move':
 					$('body').removeClass().addClass("move");
+					Timeslotter.activeTodo.addClass('popped');
 					Timeslotter.state = 'move';
 					console.log('move state');
 					break;
