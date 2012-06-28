@@ -13,7 +13,7 @@
 	display:none;
 }
 
-.edit .active .ui-btn-inner,
+.edit .editing .ui-btn-inner,
 .edit .active .move-btn {
   display:none;
 }

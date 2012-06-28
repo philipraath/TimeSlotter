@@ -128,7 +128,7 @@ $(document).ready(function () {
 				text = $("#todotext").val();
 				uuid = Timeslotter.activeTodo.attr('data-uuid');
 				Timeslotter.saveTodo({'uuid':uuid, 'text':text});
-				Timeslotter.activeTodo.removeClass('active').find('.item-body').text(text);
+				Timeslotter.activeTodo.removeClass('active editing').find('.item-body').text(text);
 				Timeslotter.setState('view');
 			});
 
@@ -157,7 +157,7 @@ $(document).ready(function () {
 
 				case 'edit':
 					$('body').removeClass().addClass("edit");
-					Timeslotter.activeTodo.append($("#editbox")).addClass('active');
+					Timeslotter.activeTodo.append($("#editbox")).addClass('active editing');
 					$('#todotext').val(Timeslotter.activeTodo.find('.item-body').text());
 					$('#editbox').show();
 					Timeslotter.state = 'edit';
