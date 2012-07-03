@@ -13,8 +13,11 @@ $(document).ready(function () {
 			// set initial state
 			Timeslotter.setState('view');
 			
+			//PRELIMINARY DATABASE TESTING
 			//create webSql Database
 			createWebSqlDatabase();
+			//call newDBItem to insert todo data into database
+			newDBItem();
 			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
@@ -220,13 +223,9 @@ $(document).ready(function () {
 	
 	function createWebSqlDatabase() {
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
-		var currentDate = new Date();
 		db.transaction(function(tx) {
 			tx.executeSql("CREATE TABLE IF NOT EXISTS " +
 		        "todo(ID INTEGER PRIMARY KEY ASC, uuid INTEGER, timeslot TEXT, date DATETIME, sort INTEGER)", []);
-        
-		tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)",
-                    [12345,"9AM", currentDate, 3]);
              
         });
 		//WE OCCASIONALLY NEED THIS DURING DEBUGGING TO RESET THE TODO TABLE. LET'S KEEP IT UNTIL THE FINAL BUILD.
@@ -237,6 +236,15 @@ $(document).ready(function () {
 	}
 	
 	//TODO: create helper function to add new items to database
+	function newDBItem() {
+		console.log("code reached");
+		//static placeholder code, just to make sure it works
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		var currentDate = new Date();// temporary for testing
+		db.transaction(function(tx) {
+			tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)", [12345, "9am", currentDate, 3]);
+		});
+	}
 	
 	//TODO: create helper function to edit items in database
 	
