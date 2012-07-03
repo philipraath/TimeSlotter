@@ -13,6 +13,9 @@ $(document).ready(function () {
 			// set initial state
 			Timeslotter.setState('view');
 			
+			//create webSql Database
+			createWebSqlDatabase();
+			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
 				
@@ -213,6 +216,24 @@ $(document).ready(function () {
 	    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	  };
 	  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+	}
+	
+	function createWebSqlDatabase() {
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		var addedOn = new Date();
+		db.transaction(function(tx) {
+			tx.executeSql("CREATE TABLE IF NOT EXISTS " +
+		        "todo(ID INTEGER PRIMARY KEY ASC, column1 TEXT, column2 TEXT, column3 DATETIME)", []);
+        
+		tx.executeSql("INSERT INTO todo(column1, column2, column3) VALUES (?,?,?)",
+                    ["item1", "ITEM2", addedOn]);
+             
+        });
+		//WE OCCASIONALLY NEED THIS DURING DEBUGGING TO RESET THE TODO TABLE. LET'S KEEP IT UNTIL THE FINAL BUILD.
+		//db.transaction(function (tx){
+		//tx.executeSql('DROP TABLE todo');
+		//});
+
 	}
 	
 });
