@@ -220,13 +220,13 @@ $(document).ready(function () {
 	
 	function createWebSqlDatabase() {
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
-		var addedOn = new Date();
+		var currentDate = new Date();
 		db.transaction(function(tx) {
 			tx.executeSql("CREATE TABLE IF NOT EXISTS " +
-		        "todo(ID INTEGER PRIMARY KEY ASC, column1 TEXT, column2 TEXT, column3 DATETIME)", []);
+		        "todo(ID INTEGER PRIMARY KEY ASC, uuid INTEGER, timeslot TEXT, date DATETIME, sort INTEGER)", []);
         
-		tx.executeSql("INSERT INTO todo(column1, column2, column3) VALUES (?,?,?)",
-                    ["item1", "ITEM2", addedOn]);
+		tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)",
+                    [12345,"9AM", currentDate, 3]);
              
         });
 		//WE OCCASIONALLY NEED THIS DURING DEBUGGING TO RESET THE TODO TABLE. LET'S KEEP IT UNTIL THE FINAL BUILD.
