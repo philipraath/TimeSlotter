@@ -236,4 +236,8 @@ $(document).ready(function () {
 
 	}
 	
+	//TODO: create helper function to add new items to database
+	
+	//TODO: create helper function to edit items in database
+	
 });
