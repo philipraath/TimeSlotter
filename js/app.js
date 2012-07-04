@@ -13,6 +13,15 @@ $(document).ready(function () {
 			// set initial state
 			Timeslotter.setState('view');
 			
+			//PRELIMINARY DATABASE TESTING
+			//create webSql Database
+				createWebSqlDatabase();
+			//call newDBItem to insert todo data into database
+				//newDBItem();
+			//call readDB to test if database is being read
+			//console will display "readDB reached" if function is called
+			readDB();
+			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
 				
@@ -30,6 +39,8 @@ $(document).ready(function () {
 									.insertAfter($(this));
 								$(this).parent().listview('refresh');
 								Timeslotter.setState('edit');
+								//call newDBItem to insert todo data into database
+								newDBItem();
 							}
 							break;
 						case 'move':
@@ -39,6 +50,8 @@ $(document).ready(function () {
 								Timeslotter.activeTodo.insertAfter($(this)).removeClass('popped');
 							}
 							Timeslotter.setState('view');
+							//call updateDBItem
+							updateDBItem();
 							break;
 						case 'edit':
 							// cancels editing
@@ -213,6 +226,58 @@ $(document).ready(function () {
 	    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
 	  };
 	  return (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+	}
+	
+	function createWebSqlDatabase() {
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx) {
+			tx.executeSql("CREATE TABLE IF NOT EXISTS " +
+		        "todo(ID INTEGER PRIMARY KEY ASC, uuid INTEGER, timeslot TEXT, date DATETIME, sort INTEGER)", []);
+             
+        });
+		//WE OCCASIONALLY NEED THIS DURING DEBUGGING TO RESET THE TODO TABLE. LET'S KEEP IT UNTIL THE FINAL BUILD.
+		//db.transaction(function (tx){
+		//tx.executeSql('DROP TABLE todo');
+		//});
+
+	}
+	
+	//TODO: create helper function to add new items to database
+	function newDBItem() {
+		//console.log("code reached");
+		//static placeholder code, just to make sure it works
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		var currentDate = new Date();// temporary for testing
+		db.transaction(function(tx) {
+			tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)", [12345, "9am", currentDate, 3]);
+		});
+	}
+	
+	//TODO: create helper function to update items in database
+	function updateDBItem() {
+		//console.log("code reached");
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx){
+			tx.executeSql("UPDATE todo SET sort = 2 WHERE ID = 1");
+		});
+	}
+	
+	//TODO: create helper function to read database
+	function readDB() {
+		console.log("readDB reached");
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+				
+					var len = results.rows.length, i;
+					for (i = 0; i < len; i++)
+					{
+						console.log("inner readDB reached");
+						console.log(results.rows.item(i));
+					}
+				}
+			);
+		});
 	}
 	
 });
