@@ -15,9 +15,12 @@ $(document).ready(function () {
 			
 			//PRELIMINARY DATABASE TESTING
 			//create webSql Database
-			createWebSqlDatabase();
+				createWebSqlDatabase();
 			//call newDBItem to insert todo data into database
-			//newDBItem();
+				//newDBItem();
+			//call readDB to test if database is being read
+			//console will display "readDB reached" if function is called
+			readDB();
 			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
@@ -252,10 +255,28 @@ $(document).ready(function () {
 	
 	//TODO: create helper function to update items in database
 	function updateDBItem() {
-		console.log("code reached");
+		//console.log("code reached");
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 		db.transaction(function(tx){
 			tx.executeSql("UPDATE todo SET sort = 2 WHERE ID = 1");
+		});
+	}
+	
+	//TODO: create helper function to read database
+	function readDB() {
+		console.log("readDB reached");
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx){
+			tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+				
+					var len = results.rows.length, i;
+					for (i = 0; i < len; i++)
+					{
+						console.log("inner readDB reached");
+						console.log(results.rows.item(i));
+					}
+				}
+			);
 		});
 	}
 	
