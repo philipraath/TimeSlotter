@@ -47,6 +47,8 @@ $(document).ready(function () {
 								Timeslotter.activeTodo.insertAfter($(this)).removeClass('popped');
 							}
 							Timeslotter.setState('view');
+							//call updateDBItem
+							updateDBItem();
 							break;
 						case 'edit':
 							// cancels editing
@@ -248,6 +250,13 @@ $(document).ready(function () {
 		});
 	}
 	
-	//TODO: create helper function to edit items in database
+	//TODO: create helper function to update items in database
+	function updateDBItem() {
+		console.log("code reached");
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx){
+			tx.executeSql("UPDATE todo SET sort = 2 WHERE ID = 1");
+		});
+	}
 	
 });
