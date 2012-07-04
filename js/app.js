@@ -17,7 +17,7 @@ $(document).ready(function () {
 			//create webSql Database
 			createWebSqlDatabase();
 			//call newDBItem to insert todo data into database
-			newDBItem();
+			//newDBItem();
 			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
@@ -36,6 +36,8 @@ $(document).ready(function () {
 									.insertAfter($(this));
 								$(this).parent().listview('refresh');
 								Timeslotter.setState('edit');
+								//call newDBItem to insert todo data into database
+								newDBItem();
 							}
 							break;
 						case 'move':
@@ -237,7 +239,7 @@ $(document).ready(function () {
 	
 	//TODO: create helper function to add new items to database
 	function newDBItem() {
-		console.log("code reached");
+		//console.log("code reached");
 		//static placeholder code, just to make sure it works
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 		var currentDate = new Date();// temporary for testing
