@@ -6,12 +6,11 @@
     
     $dir = new RecursiveDirectoryIterator(".");
     foreach (new RecursiveIteratorIterator ($dir) as $file){
-        if ($file->IsFile() &&
-            $file != "./manifest.php" &&
-            substr($file->getFileName(), 0, 1) != ".")
-        {
-            echo $file . "\n";
+        if ($file->IsFile()) {
+          if ( $file->getFileName() != 'manifest.php' && (substr($file, 2 , 4) != '.git') && ($file->getFileName() != '.DS_Store') ) {
+            print $file. "\n";
             $hashes .= md5_file($file);
+          }
         }
     }
     echo "http://code.jquery.com/mobile/1.1.0/jquery.mobile-1.1.0.min.css" . "\n";
