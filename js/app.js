@@ -340,10 +340,12 @@ $(document).ready(function () {
 		});
 		}
 		if(text!=undefined){
-			db.transaction(function(tx){
-			console.log("todo item: " + text);
-			tx.executeSql("UPDATE todo SET todoItem = " + text + " WHERE uuid = " + uuid);
 			console.log("text not undefined reached");
+			console.log("uuid: "+ uuid);
+			console.log("todo item: " + text);
+			db.transaction(function(tx){
+			tx.executeSql("UPDATE todo SET todoItem = " + text + " WHERE uuid = " + uuid);
+			
 		});
 		}	
 	}
