@@ -201,7 +201,9 @@ $(document).ready(function () {
 			else {
 				console.log("saveTodo else reached");
 				uuid = data['uuid'];
-				updateDBItem(uuid, undefined, undefined, sort); // pass uuid id to select item
+				todoItem = data['text'];
+				//console.log("text data:" + todoItem);
+				updateDBItem(uuid, undefined, undefined, sort, todoItem); // pass uuid id to select item
 			}
 			//console.log(data);
 			//console.log(uuid);
@@ -236,6 +238,7 @@ $(document).ready(function () {
 			
 			console.log("prev not float:" + prev);
 			if (prev != undefined) {
+				console.log("previous not undefined reached");
 				prev = parseFloat(prev);				
 			}
 			console.log("prev float: " + prev);
@@ -254,8 +257,9 @@ $(document).ready(function () {
 			{
 				sort = next -1;
 			}
-			else if(prev && next)
+			else if(prev!=undefined && next!=undefined)
 			{
+				console.log("prev && next reached");
 				sort = (prev + next)/2;
 			}
 			else
@@ -289,7 +293,7 @@ $(document).ready(function () {
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 		db.transaction(function(tx) {
 			tx.executeSql("CREATE TABLE IF NOT EXISTS " +
-		        "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER)", []);
+		        "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER, todoItem TEXT)", []);
              
 		});
 	}
@@ -303,18 +307,21 @@ $(document).ready(function () {
 	}
 	
 	//TODO: create helper function to add new items to database
-	function newDBItem(uuid, timeslot, date, sort) {
+	function newDBItem(uuid, timeslot, date, sort, todoItem) {
 		console.log("newDBItem reached");
 		//static placeholder code, just to make sure it works
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		//console.log("newDBItem reached 2");
 		var currentDate = new Date();// temporary for testing
 		db.transaction(function(tx) {
-			tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)", [uuid, timeslot, date, sort]);
+			//console.log("newDBItem reached 3");
+			tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort, todoItem) VALUES (?,?,?,?,?)", [uuid, timeslot, date, sort, todoItem]);
+			//console.log("newDBItem reached 4");
 		});
 	}
 	
 	//TODO: create helper function to update items in database
-	function updateDBItem(uuid, timeslot, date, sort) {
+	function updateDBItem(uuid, timeslot, date, sort, text) {
 		console.log("updateDBItem reached");
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 		if(timeslot!=undefined){
@@ -332,7 +339,13 @@ $(document).ready(function () {
 			tx.executeSql("UPDATE todo SET sort = " + sort + " WHERE uuid = " + uuid);
 		});
 		}
-		
+		if(text!=undefined){
+			db.transaction(function(tx){
+			console.log("todo item: " + text);
+			tx.executeSql("UPDATE todo SET todoItem = " + text + " WHERE uuid = " + uuid);
+			console.log("text not undefined reached");
+		});
+		}	
 	}
 	
 	//TODO: create helper function to read database
