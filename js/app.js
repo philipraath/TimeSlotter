@@ -326,17 +326,17 @@ $(document).ready(function () {
 		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 		if(timeslot!=undefined){
 			db.transaction(function(tx){
-			tx.executeSql("UPDATE todo SET timeslot = " + timeslot + " WHERE uuid = " + uuid);
+			tx.executeSql("UPDATE todo SET timeslot = ? WHERE uuid = ?", [timeslot, uuid], null, onError);
 		});
 		}
 		if(date!=undefined){
 			db.transaction(function(tx){
-			tx.executeSql("UPDATE todo SET date = " + date + " WHERE uuid = " + uuid);
+			tx.executeSql("UPDATE todo SET date = ? WHERE uuid = ?", [date, uuid], null, onError);
 		});
 		}
 		if(sort!=undefined){
 			db.transaction(function(tx){
-			tx.executeSql("UPDATE todo SET sort = " + sort + " WHERE uuid = " + uuid);
+			tx.executeSql("UPDATE todo SET sort = ? WHERE uuid = ?", [sort, uuid], null, onError);
 		});
 		}
 		if(text!=undefined){
@@ -344,11 +344,16 @@ $(document).ready(function () {
 			console.log("uuid: "+ uuid);
 			console.log("todo item: " + text);
 			db.transaction(function(tx){
-			tx.executeSql("UPDATE todo SET todoItem = " + text + " WHERE uuid = " + uuid);
+			tx.executeSql("UPDATE todo SET todoItem = ? WHERE uuid = ?", [text, uuid], null, onError);
 			console.log("end of if reached");
 			
 		});
 		}	
+	}
+	
+	// Log webSQL errors
+	function onError(tx, error) {
+	log.innerHTML += '<p>' + error.message + '</p>';
 	}
 	
 	//TODO: create helper function to read database
