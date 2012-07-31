@@ -345,6 +345,7 @@ $(document).ready(function () {
 			console.log("todo item: " + text);
 			db.transaction(function(tx){
 			tx.executeSql("UPDATE todo SET todoItem = " + text + " WHERE uuid = " + uuid);
+			console.log("end of if reached");
 			
 		});
 		}	
