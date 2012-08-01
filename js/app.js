@@ -229,9 +229,31 @@ $(document).ready(function () {
 				$("#days-header").after('<div data-role="content" class="day active" data-day="'+ id +'" id="day-'+ id +'">  <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false"><!-- early morning --><li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li><!-- mid-morning --> <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li><!-- afternoon --> <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li> <!-- late afternoon --> <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li> <!-- evening --> <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li> <!-- late evening --> <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>  </ul></div><!-- /day -->');
 				Timeslotter.activeDay = $('#day-' + id );
 			}
+			
+			// read from database
+			var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+			db.transaction(function(tx){
+				// SELECT * FROM todo WHERE todo.date = TODAY...
+				tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+					var len = results.rows.length, i;
+					for (i = 0; i < len; i++) {
+						item = results.rows.item(i);
+						if (item.date == id) {
+							$('<li class="todo" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
+							console.log(item);
+						}
+					}
+				});
+			});	
+
+			// refresh jquerymobile
 			Timeslotter.activeDay.find('.day-todo-list').listview().listview('refresh');
 			Timeslotter.activeDay.addClass('active');
 			console.log('view day '+id);
+
+			// Timeslotter.setState('view');
+
+						
 		},
 		
 		sortValue: function(prev, next) {
@@ -366,12 +388,20 @@ $(document).ready(function () {
 					var len = results.rows.length, i;
 					for (i = 0; i < len; i++)
 					{
-						console.log("inner readDB reached");
-						console.log(results.rows.item(i));
+						//console.log("inner readDB reached");
+						//console.log(results.rows.item(i));
+//						todoElement = results.rows.item(i);			
+				
 					}
+
+
+
 				}
 			);
+
 		});
+
+
 	}
 	
 });
