@@ -15,7 +15,7 @@ $(document).ready(function () {
 			
 			//PRELIMINARY DATABASE TESTING
 			//delete previous webSql Database
-				deleteWebSqlDatabase();
+				//deleteWebSqlDatabase();
 			//create webSql Database
 				createWebSqlDatabase();
 			//call newDBItem to insert todo data into database
@@ -366,8 +366,8 @@ $(document).ready(function () {
 					var len = results.rows.length, i;
 					for (i = 0; i < len; i++)
 					{
-						//console.log("inner readDB reached");
-						//console.log(results.rows.item(i));
+						console.log("inner readDB reached");
+						console.log(results.rows.item(i));
 					}
 				}
 			);
