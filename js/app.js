@@ -7,7 +7,7 @@ $(document).ready(function () {
 		state:'',
 		day: moment(),
 		activeDay: null,
-		database: openDatabase('timeslotter', '1.0', 'Timeslotter App', 2 * 1024 * 1024),
+		database: openDatabase('timeslotter', '', 'Timeslotter App', 2 * 1024 * 1024),
 		
 		init: function() {
 			
@@ -60,7 +60,7 @@ $(document).ready(function () {
 						case 'view':
 							// completes/uncompletes todo
 							status = ($tappedTodo.toggleClass('completed').hasClass('completed'))? 'completed':'';
-							Timeslotter.saveTodo($tappedTodo.attr('data-uuid'), {'status':status});
+							Timeslotter.saveTodo({'uuid':$tappedTodo.attr('data-uuid'), 'status':status});
 							break;
 						case 'move':
 							// inserts active todo unless clicked same todo
@@ -133,8 +133,18 @@ $(document).ready(function () {
 					Timeslotter.setState('view');
 				}
 				
-			}, '#editbox');
+			}, '#editbox').on({
 
+					tap: function(e){
+
+						Timeslotter.dropTable('todo');
+						window.setTimeout(function(){
+							$("#confirmed").show();
+						}, 300);
+
+					}
+
+				}, '#refresh-database-confirm');
 			///////////////////////////////////
 
 			// set initial state
@@ -146,13 +156,13 @@ $(document).ready(function () {
 			// create tables for local storage
 			Timeslotter.database.transaction(function(tx) {
 				tx.executeSql("CREATE TABLE IF NOT EXISTS " +
-			    "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER, todoItem TEXT)", []);
+			    "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER, todoItem TEXT, status TEXT)", []);
 			});
 			
 			// show today's todos by default
 			Timeslotter.viewDay();
 
-		},    
+		}, 
 		
 		setState:function(s) {
 			switch(s) {
@@ -190,7 +200,7 @@ $(document).ready(function () {
 		// save a todo to the db, if no uuid then create a new item
 		// returns uuid on success, 0 on failure
 		saveTodo: function(data) {
-
+			
 			// create new todo
 			if (data['uuid'] === undefined) {
 	
@@ -204,11 +214,12 @@ $(document).ready(function () {
 				});
 				
 				// ideally would catch errors and report as well
-				console.log('created new todo: '+ data['uuid']);
+				console.log('created new todo: '+ uuid);
 			}
 
 			// update existing todo
-			else {
+			else {				
+				uuid = data['uuid'];
 				
 				// set timeslot
 				if (data['timeslot'] != undefined) {
@@ -234,6 +245,13 @@ $(document).ready(function () {
 						tx.executeSql("UPDATE todo SET todoItem = ? WHERE uuid = ?", [data['text'], data['uuid']], null, Timeslotter.logDBError);
 					});
 					console.log(data['text']);
+				}
+				// set status
+				if (data['status'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET status = ? WHERE uuid = ?", [data['status'], data['uuid']], null, Timeslotter.logDBError);
+					});
+					console.log(data['status']);
 				}
 
 				// ideally would catch errors and provide some intelligent response to the user		
@@ -280,7 +298,7 @@ $(document).ready(function () {
 						for (i = 0; i < len; i++) {
 							item = results.rows.item(i);
 							if (item.date == id && item.todoItem) {
-								$('<li class="todo" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
+								$('<li class="todo '+ item.status +'" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
 								//console.log(item);
 							}
 						}
@@ -332,6 +350,7 @@ $(document).ready(function () {
 		},
 		
 		dropTable: function(table) {
+			console.log('drop table'+ table);
 			Timeslotter.database.transaction(function (tx){
 				tx.executeSql('DROP TABLE '+ table);
 			});
