@@ -23,6 +23,8 @@ $(document).ready(function () {
 			//call readDB to test if database is being read
 			//console will display "readDB reached" if function is called
 			readDB();
+			tempUUID = "acda793c-adcb-a50a-1745-a5428a846ce1";
+			deleteWebSqlItem(tempUUID);
 			
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
@@ -326,6 +328,15 @@ $(document).ready(function () {
 		tx.executeSql('DROP TABLE todo');
 		});
 		
+	}
+	
+	//TODO: create helper function to delete single item from database
+	function deleteWebSqlItem(uuid) {
+		console.log("delete item reached");
+		var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
+		db.transaction(function(tx){
+			tx.executeSql('DELETE FROM todo WHERE uuid = ?', [uuid], null, onError);
+		});
 	}
 	
 	//TODO: create helper function to add new items to database
