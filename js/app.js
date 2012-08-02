@@ -240,7 +240,11 @@ $(document).ready(function () {
 					var len = results.rows.length, i;
 					for (i = 0; i < len; i++) {
 						item = results.rows.item(i);
-						if (item.date == id) {
+						if (item.todoItem == "undefined"){
+							console.log(item.uuid);
+							deleteWebSqlItem(item.uuid);
+						}
+						else if (item.date == id) {
 							$('<li class="todo" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
 							console.log(item);
 						}
@@ -260,19 +264,19 @@ $(document).ready(function () {
 		
 		sortValue: function(prev, next) {
 			
-			console.log("prev not float:" + prev);
+			//console.log("prev not float:" + prev);
 			if (prev != undefined) {
-				console.log("previous not undefined reached");
+				//console.log("previous not undefined reached");
 				prev = parseFloat(prev);				
 			}
-			console.log("prev float: " + prev);
+			//console.log("prev float: " + prev);
 
-			console.log("next not float: " +next);
+			//console.log("next not float: " +next);
 			if (next != undefined){
 				next = parseFloat(next);
 			}
 			
-			console.log("next float: " + next);
+			//console.log("next float: " + next);
 			
 			if(prev!=undefined && next==undefined){
 				sort = prev + 1;
@@ -283,7 +287,7 @@ $(document).ready(function () {
 			}
 			else if(prev!=undefined && next!=undefined)
 			{
-				console.log("prev && next reached");
+			//	console.log("prev && next reached");
 				sort = (prev + next)/2;
 			}
 			else
