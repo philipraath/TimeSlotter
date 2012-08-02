@@ -236,7 +236,7 @@ $(document).ready(function () {
 			var db = openDatabase('mydb', '1.0', 'myFirstDatabase', 2 * 1024 * 1024);
 			db.transaction(function(tx){
 				// SELECT * FROM todo WHERE todo.date = TODAY...
-				tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+				tx.executeSql("SELECT * FROM todo WHERE date = ?",[id], function(tx, results){
 					var len = results.rows.length, i;
 					for (i = 0; i < len; i++) {
 						item = results.rows.item(i);
@@ -244,7 +244,7 @@ $(document).ready(function () {
 							console.log(item.uuid);
 							deleteWebSqlItem(item.uuid);
 						}
-						else if (item.date == id) {
+						else {
 							$('<li class="todo" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
 							console.log(item);
 						}
