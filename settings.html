@@ -21,22 +21,22 @@
   </head>  
   <body>
 	
-    <!-- todos by day page -->
-    <div data-role="page">
+    <div data-role="page" id="home">
 
 			<!-- header -->
-      <div id="days-header" data-theme="a" data-role="header" data-position="fixed">
-        <h4></h4>
-      </div>
+      <div data-theme="b" data-role="header" data-position="fixed">
+        <h4>Settings</h4>
+			</div>
+
+			<div data-role="content"> 
+				<a href="refresh-database.html" rel="external" data-role="button" data-theme="b">Clear Database</a>
+
+				<br />
+				<a id="return-to-app" rel="external" href="index.html" data-role="button">Return to App</a>
+
+			</div>
 
     </div><!-- /page -->
-
-    <form id="editbox" data-ajax="false">
-      <div data-role="fieldcontain" class="ui-hide-label">
-      	<label for="todotext">New Todo:</label>
-      	<input type="text" name="todotext" id="todotext" value="" placeholder=""/>
-    	</div>
-    </form>
 		
   </body>
 </html>

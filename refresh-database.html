@@ -21,22 +21,25 @@
   </head>  
   <body>
 	
-    <!-- todos by day page -->
     <div data-role="page">
 
 			<!-- header -->
-      <div id="days-header" data-theme="a" data-role="header" data-position="fixed">
-        <h4></h4>
-      </div>
+      <div data-theme="b" data-role="header" data-position="fixed">
+        <h4>Clear All Data?</h4>
+			</div>
+
+			<div data-role="content"> 
+				<p>Are you sure you want to delete all your existing data?</p>
+				<button data-theme="b" id="refresh-database-confirm">DELETE MY DATA</button>
+				<a id="return-to-app" rel="external" href="index.html" data-role="button">cancel and return to app</a>
+
+				<p id="confirmed" style="display:none">
+					Database deleted. <a rel="external" href="index.html">Return to your app, here</a>.
+				</p>
+				
+			</div>
 
     </div><!-- /page -->
-
-    <form id="editbox" data-ajax="false">
-      <div data-role="fieldcontain" class="ui-hide-label">
-      	<label for="todotext">New Todo:</label>
-      	<input type="text" name="todotext" id="todotext" value="" placeholder=""/>
-    	</div>
-    </form>
 		
   </body>
 </html>

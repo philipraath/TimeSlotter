@@ -7,9 +7,11 @@ $(document).ready(function () {
 		state:'',
 		day: moment(),
 		activeDay: null,
+		database: openDatabase('timeslotter', '', 'Timeslotter App', 2 * 1024 * 1024),
 		
 		init: function() {
 			
+<<<<<<< HEAD
 			// set initial state
 			Timeslotter.setState('view');
 			
@@ -22,6 +24,8 @@ $(document).ready(function () {
 			//console will display "readDB reached" if function is called
 			readDB();
 			
+=======
+>>>>>>> c8f9a845423371bf7869f602130db36769dad97f
 			// delegate events to support DOM insertion of new Todos
 			$('body').on({ 
 				
@@ -72,7 +76,7 @@ $(document).ready(function () {
 						case 'view':
 							// completes/uncompletes todo
 							status = ($tappedTodo.toggleClass('completed').hasClass('completed'))? 'completed':'';
-							Timeslotter.saveTodo($tappedTodo.attr('data-uuid'), {'status':status});
+							Timeslotter.saveTodo({'uuid':$tappedTodo.attr('data-uuid'), 'status':status});
 							break;
 						case 'move':
 							// inserts active todo unless clicked same todo
@@ -129,23 +133,48 @@ $(document).ready(function () {
 					Timeslotter.viewDay();
 				},
 				
-			}, '.day');
+			}, '.day').on({
+			
+				// when the editbox is submited save to DB and update todo's html
+				submit: function(e){
+					e.preventDefault();
+					text = $("#todotext").val();
+					uuid = Timeslotter.activeTodo.attr('data-uuid');
+					Timeslotter.saveTodo({'uuid':uuid, 'text':text});
+					Timeslotter.activeTodo.removeClass('active editing').find('.item-body').text(text);
+					Timeslotter.setState('view');
+				}
+				
+			}, '#editbox').on({
+
+					tap: function(e){
+
+						Timeslotter.dropTable('todo');
+						window.setTimeout(function(){
+							$("#confirmed").show();
+						}, 300);
+
+					}
+
+				}, '#refresh-database-confirm');
+			///////////////////////////////////
+
+			// set initial state
+			Timeslotter.setState('view');
+
+			// render the editbox with jquerymobile styles (have to trigger "create" event since editbox appears outside the "page" defined by 'data-role="page"')
+			$("#editbox").trigger('create');			
+
+			// create tables for local storage
+			Timeslotter.database.transaction(function(tx) {
+				tx.executeSql("CREATE TABLE IF NOT EXISTS " +
+			    "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER, todoItem TEXT, status TEXT)", []);
+			});
 			
 			// show today's todos by default
 			Timeslotter.viewDay();
-			
-			// renders the editbox with jquerymobile styles since it's outside the page's HTML
-			// and on submit saves the data and updates display
-			$("#editbox").trigger('create').submit(function(e){
-				e.preventDefault();
-				text = $("#todotext").val();
-				uuid = Timeslotter.activeTodo.attr('data-uuid');
-				Timeslotter.saveTodo({'uuid':uuid, 'text':text});
-				Timeslotter.activeTodo.removeClass('active editing').find('.item-body').text(text);
-				Timeslotter.setState('view');
-			});
 
-		},    
+		}, 
 		
 		setState:function(s) {
 			switch(s) {
@@ -158,14 +187,14 @@ $(document).ready(function () {
 						$(this).closest('.todo').remove();
 					});
 					Timeslotter.state = 'view';
-					console.log('view state');
+					//console.log('view state');
 					break;
 
 				case 'move':
 					$('body').removeClass().addClass("move");
 					Timeslotter.activeTodo.addClass('popped');
 					Timeslotter.state = 'move';
-					console.log('move state');
+					//console.log('move state');
 					break;
 
 				case 'edit':
@@ -174,7 +203,7 @@ $(document).ready(function () {
 					$('#todotext').val(Timeslotter.activeTodo.find('.item-body').text());
 					$('#editbox').show();
 					Timeslotter.state = 'edit';
-					console.log('edit state');
+					//console.log('edit state');
 					break;
 				
 			}
@@ -183,9 +212,70 @@ $(document).ready(function () {
 		// save a todo to the db, if no uuid then create a new item
 		// returns uuid on success, 0 on failure
 		saveTodo: function(data) {
+<<<<<<< HEAD
 			uuid = (data['uuid'] === undefined)? newUUID() : data['uuid'];
 			console.log(data);
 			console.log(uuid);
+=======
+			
+			// create new todo
+			if (data['uuid'] === undefined) {
+	
+				// generate a UUID (approximate, not 100% reliable) from http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+			  S4 = function() { return (((1+Math.random())*0x10000)|0).toString(16).substring(1); };
+				uuid = (S4()+S4()+"-"+S4()+"-"+S4()+"-"+S4()+"-"+S4()+S4()+S4());
+	
+				// save to database
+				Timeslotter.database.transaction(function(tx) {
+					tx.executeSql("INSERT INTO todo(uuid, timeslot, date, sort) VALUES (?,?,?,?)", [uuid, data['timeslot'], data['date'], data['sort']]);
+				});
+				
+				// ideally would catch errors and report as well
+				console.log('created new todo: '+ uuid);
+			}
+
+			// update existing todo
+			else {				
+				uuid = data['uuid'];
+				
+				// set timeslot
+				if (data['timeslot'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET timeslot = ? WHERE uuid = ?", [data['timeslot'], data['uuid']], null, Timeslotter.logDBError);
+					});
+				}
+				// set date
+				if (data['date'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET date = ? WHERE uuid = ?", [data['date'], data['uuid']], null, Timeslotter.logDBError);
+					});
+				}
+				// set sort
+				if (data['sort'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET sort = ? WHERE uuid = ?", [data['sort'], data['uuid']], null, Timeslotter.logDBError);
+					});
+				}
+				// set text
+				if (data['text'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET todoItem = ? WHERE uuid = ?", [data['text'], data['uuid']], null, Timeslotter.logDBError);
+					});
+					console.log(data['text']);
+				}
+				// set status
+				if (data['status'] != undefined) {
+					Timeslotter.database.transaction(function(tx){
+						tx.executeSql("UPDATE todo SET status = ? WHERE uuid = ?", [data['status'], data['uuid']], null, Timeslotter.logDBError);
+					});
+					console.log(data['status']);
+				}
+
+				// ideally would catch errors and provide some intelligent response to the user		
+				console.log('updated todo: '+ data['uuid']);
+			}
+
+>>>>>>> c8f9a845423371bf7869f602130db36769dad97f
 			return uuid;
 		},
 		
@@ -194,32 +284,112 @@ $(document).ready(function () {
 			//
 		},
 		
-		// show a single day view
-		// checks for existance, creates from db if not present
+		// switch to the given date, create the page & load todos from database if needed
 		viewDay: function(date) {
+
+			// hide previous day
 			if (Timeslotter.activeDay) Timeslotter.activeDay.removeClass('active');
+
+			// update date
 			id = Timeslotter.day.format('YYYY-MM-DD');
 			title = Timeslotter.day.format('dddd, MMM D');
 			$('#days-header h4').text(title);
+
+			// select page for given day
 			Timeslotter.activeDay = $('#day-' + id );
+		  Timeslotter.activeDay.addClass('active');
 			if (Timeslotter.activeDay.length < 1) {
+
+				// create page if it doesn't already exist
 				$("#days-header").after('<div data-role="content" class="day active" data-day="'+ id +'" id="day-'+ id +'">  <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false"><!-- early morning --><li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li><!-- mid-morning --> <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li><!-- afternoon --> <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li> <!-- late afternoon --> <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li> <!-- evening --> <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li> <!-- late evening --> <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>  </ul></div><!-- /day -->');
+
+				// select newly created page
 				Timeslotter.activeDay = $('#day-' + id );
+<<<<<<< HEAD
 			}
 			Timeslotter.activeDay.find('.day-todo-list').listview().listview('refresh');
 			Timeslotter.activeDay.addClass('active');
 			console.log('view day '+id);
+=======
+			  Timeslotter.activeDay.addClass('active').find('.day-todo-list').listview();
+
+				// load todos from local storage
+				Timeslotter.database.transaction(function(tx){
+
+					// SELECT * FROM todo WHERE todo.date = TODAY...
+					tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+						var len = results.rows.length, i;
+						for (i = 0; i < len; i++) {
+							item = results.rows.item(i);
+							if (item.date == id && item.todoItem) {
+								$('<li class="todo '+ item.status +'" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
+								//console.log(item);
+							}
+						}
+						// refresh jquerymobile styles AFTER asynchronous database query
+						Timeslotter.activeDay.find('.day-todo-list').listview('refresh');						
+					});
+
+				});	
+
+			}
+
+			console.log('view day '+id);
+		},
+		
+		sortValue: function(prev, next) {
+			
+			//console.log("prev not float:" + prev);
+			if (prev != undefined) {
+				//console.log("previous not undefined reached");
+				prev = parseFloat(prev);				
+			}
+			//console.log("prev float: " + prev);
+
+			//console.log("next not float: " +next);
+			if (next != undefined){
+				next = parseFloat(next);
+			}
+			
+			//console.log("next float: " + next);
+			
+			if(prev!=undefined && next==undefined){
+				sort = prev + 1;
+			}
+			else if(prev==undefined && next!=undefined)
+			{
+				sort = next -1;
+			}
+			else if(prev!=undefined && next!=undefined)
+			{
+				//console.log("prev && next reached");
+				sort = (prev + next)/2;
+			}
+			else
+			{
+				sort = 0;
+			}
+			
+			return sort;
+		},
+		
+		dropTable: function(table) {
+			console.log('drop table'+ table);
+			Timeslotter.database.transaction(function (tx){
+				tx.executeSql('DROP TABLE '+ table);
+			});
+		}, 
+		
+		logDBError: function(tx, error) {
+			// Log webSQL errors
+			console.log(error);
+>>>>>>> c8f9a845423371bf7869f602130db36769dad97f
 		}
 
 	}
 
-	// initialize the app
-	Timeslotter.init();
 
-	/*
-	 * Helper Functions
-	 */
-
+<<<<<<< HEAD
 	// helper function to create a UUID (approximate, not 100% reliable) from http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
 	function newUUID() {
 	  var S4 = function() {
@@ -280,4 +450,9 @@ $(document).ready(function () {
 		});
 	}
 	
+=======
+	// start the app
+	Timeslotter.init();
+		
+>>>>>>> c8f9a845423371bf7869f602130db36769dad97f
 });
