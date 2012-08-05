@@ -263,7 +263,10 @@ $(document).ready(function () {
 		
 		// delete a todo from the db
 		deleteTodo: function(uuid) {
-			//
+			Timeslotter.database.transaction(function(tx){
+				tx.executeSql('DELETE FROM todo WHERE uuid = ?', [uuid], null, Timeslotter.logDBError);
+			});
+			console.log('deleted item '+ uuid);
 		},
 		
 		// switch to the given date, create the page & load todos from database if needed
@@ -292,14 +295,16 @@ $(document).ready(function () {
 				// load todos from local storage
 				Timeslotter.database.transaction(function(tx){
 
-					// SELECT * FROM todo WHERE todo.date = TODAY...
-					tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+					// view todos for given day while skipping & deleting empty todos in the process
+					tx.executeSql("SELECT * FROM todo WHERE date = ?",[id], function(tx, results){
 						var len = results.rows.length, i;
 						for (i = 0; i < len; i++) {
 							item = results.rows.item(i);
-							if (item.date == id && item.todoItem) {
-								$('<li class="todo '+ item.status +'" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
-								//console.log(item);
+							if (item.todoItem == "undefined" || item.todoItem.length < 1){
+								Timeslotter.deleteTodo(item.uuid);
+							}
+							else {
+								$('<li class="todo" data-uuid="'+ item.uuid +'" data-sort="'+ item.sort +'"><a data-icon="check" class="item-body" href="#">'+ item.todoItem +'</a><a class="move-btn" data-icon="grid" href="#"></a></li>').insertAfter(Timeslotter.activeDay.find('li[data-timeslot='+ item.timeslot +']'));
 							}
 						}
 						// refresh jquerymobile styles AFTER asynchronous database query
