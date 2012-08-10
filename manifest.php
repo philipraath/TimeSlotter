@@ -8,7 +8,7 @@
     foreach (new RecursiveIteratorIterator ($dir) as $file){
         if (	$file->IsFile() &&
             	$file != "./manifest.php" &&
-            	$file->getFileName() != ".DS_Store" &&
+            	substr($file->getFileName(), 0, 1) != "." &&
 							substr($dir, 0, 4) != ".git"
 						)
         {
