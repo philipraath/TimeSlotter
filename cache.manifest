@@ -1,11 +1,1 @@
-CACHE MANIFEST
-index.html
-css/app.css
-images/ajax-loader.png
-images/icons-18-black.png
-images/icons-18-white.png
-images/icons-36-black.png
-images/icons-36-white.png
-js/app.js
-refresh-database.html
-settings.html
+<?php include('manifest.php'); ?>
