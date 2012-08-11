@@ -162,6 +162,10 @@ $(document).ready(function () {
 			// show today's todos by default
 			Timeslotter.viewDay();
 
+			// setswipe defaults
+			$.event.special.swipe.horizontalDistanceThreshold = '15px';
+			$.event.special.swipe.verticalDistanceThreshold = '100px';
+
 		}, 
 		
 		setState:function(s) {
