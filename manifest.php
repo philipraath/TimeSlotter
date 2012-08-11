@@ -9,7 +9,11 @@
         if (	$file->IsFile() &&
             	$file != "./manifest.php" &&
             	substr($file->getFileName(), 0, 1) != "." &&
-							substr($dir, 0, 4) != ".git"
+							substr($dir, 0, 4) != ".git"  && 
+							substr($dir, 0, 4) != "dev1"  && 
+							substr($dir, 0, 4) != "dev2"  && 
+							substr($dir, 0, 4) != "dev3"  && 
+							substr($dir, 0, 7) != "staging"
 						)
         {
             echo $file . "\n";
