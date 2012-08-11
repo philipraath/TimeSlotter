@@ -163,8 +163,8 @@ $(document).ready(function () {
 			Timeslotter.viewDay();
 
 			// setswipe defaults
-			$.event.special.swipe.horizontalDistanceThreshold = 15;
-			$.event.special.swipe.verticalDistanceThreshold = 100;
+			$.event.special.swipe.horizontalDistanceThreshold = '15px';
+			$.event.special.swipe.verticalDistanceThreshold = '100px';
 
 		}, 
 		
