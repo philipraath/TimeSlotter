@@ -304,7 +304,7 @@ $(document).ready(function () {
 						var len = results.rows.length, i;
 						for (i = 0; i < len; i++) {
 							item = results.rows.item(i);
-							if (item.todoItem == "undefined" || item.todoItem.length < 1){
+							if (!item.todoItem){
 								Timeslotter.deleteTodo(item.uuid);
 							}
 							else {
