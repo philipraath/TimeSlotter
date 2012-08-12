@@ -285,12 +285,21 @@ $(document).ready(function () {
 			$('#days-header h4').text(title);
 
 			// select page for given day
+			Timeslotter.formerActiveDay = Timeslotter.activeDay;
 			Timeslotter.activeDay = $('#day-' + id );
 		  Timeslotter.activeDay.addClass('active');
+
 			if (Timeslotter.activeDay.length < 1) {
 
-				// create page if it doesn't already exist
-				$("#days-header").after('<div data-role="content" class="day active" data-day="'+ id +'" id="day-'+ id +'">  <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false"><!-- early morning --><li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li><!-- mid-morning --> <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li><!-- afternoon --> <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li> <!-- late afternoon --> <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li> <!-- evening --> <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li> <!-- late evening --> <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>  </ul></div><!-- /day -->');
+				// new day container
+				newDay = '<div data-role="content" class="day active" data-day="'+ id +'" id="day-'+ id +'">  <ul class="day-todo-list" data-role="listview" data-divider-theme="c" data-split-icon="calendar" data-split-theme="c" data-inset="false"><!-- early morning --><li data-timeslot="6am" data-role="list-divider" class="timeslot" role="header">6am</li><!-- mid-morning --> <li data-timeslot="9am" data-role="list-divider" class="timeslot" role="header">9am</li><!-- afternoon --> <li data-timeslot="12pm" data-role="list-divider" class="timeslot" role="header">12pm</li> <!-- late afternoon --> <li data-timeslot="3pm" data-role="list-divider" class="timeslot" role="header">3pm</li> <!-- evening --> <li data-timeslot="6pm" data-role="list-divider" class="timeslot" role="header">6pm</li> <!-- late evening --> <li data-timeslot="9pm" data-role="list-divider" class="timeslot" role="header">9pm</li>  </ul></div>';
+
+				// insert day into page
+				if (!Timeslotter.formerActiveDay) {
+					$("#days-header").after(newDay);
+				} else {
+					(Timeslotter.formerActiveDay.attr('data-day') > id)? Timeslotter.formerActiveDay.before(newDay) : Timeslotter.formerActiveDay.after(newDay);					
+				}
 
 				// select newly created page
 				Timeslotter.activeDay = $('#day-' + id );
