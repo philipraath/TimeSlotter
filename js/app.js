@@ -147,24 +147,30 @@ $(document).ready(function () {
 				}, '#refresh-database-confirm');
 			///////////////////////////////////
 
-			// set initial state
-			Timeslotter.setState('view');
-
-			// render the editbox with jquerymobile styles (have to trigger "create" event since editbox appears outside the "page" defined by 'data-role="page"')
-			$("#editbox").trigger('create');			
-
 			// create tables for local storage
 			Timeslotter.database.transaction(function(tx) {
 				tx.executeSql("CREATE TABLE IF NOT EXISTS " +
 			    "todo(uuid TEXT PRIMARY KEY ASC, timeslot TEXT, date TEXT, sort INTEGER, todoItem TEXT, status TEXT)", []);
 			});
-			
-			// show today's todos by default
-			Timeslotter.viewDay();
 
-			// setswipe defaults
-//			$.event.special.swipe.horizontalDistanceThreshold = '15px';
-//			$.event.special.swipe.verticalDistanceThreshold = '100px';
+			if ($("body").attr('data-page-type') == 'front') {
+				// set initial state
+				Timeslotter.setState('view');
+
+				// render the editbox with jquerymobile styles (have to trigger "create" event since editbox appears outside the "page" defined by 'data-role="page"')
+				$("#editbox").trigger('create');			
+
+				// show today's todos by default
+				Timeslotter.viewDay();				
+
+				// setswipe defaults
+				//$.event.special.swipe.horizontalDistanceThreshold = '15px';
+				//$.event.special.swipe.verticalDistanceThreshold = '100px';
+
+			} else {
+				// export data
+				Timeslotter.getData();		
+			}
 
 		}, 
 		
@@ -367,6 +373,27 @@ $(document).ready(function () {
 			return sort;
 		},
 		
+		getData: function() {
+			if ($("#export").length > 0) {
+				Timeslotter.database.transaction(function (tx){
+
+					tx.executeSql("SELECT * FROM todo",[], function(tx, results){
+						var len = results.rows.length, i;
+						data = new Array();
+						for (i = 0; i < len; i++) {
+							item = results.rows.item(i);
+							if (item.todoItem){
+								//console.log(item);
+								data.push(item);
+							}
+						}
+						$("#export").append(JSON.stringify(data)); 
+ 					});
+
+				});
+			}
+		}, 
+
 		dropTable: function(table) {
 			console.log('drop table'+ table);
 			Timeslotter.database.transaction(function (tx){
