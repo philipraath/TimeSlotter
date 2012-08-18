@@ -46,3 +46,10 @@ li.todo.completed a.item-body {
 .day.active {
 	display:block;
 }
+
+#visualize-export, 
+#visualize-export td, 
+#visualize-export th  {
+	text-align:left;
+	padding-right:20px;
+}

@@ -383,7 +383,8 @@ $(document).ready(function () {
 						for (i = 0; i < len; i++) {
 							item = results.rows.item(i);
 							if (item.todoItem){
-								//console.log(item);
+								console.log(item);
+								$("#visualize-export").append("<tr><td>"+item.uuid+"</td><td>"+item.timeslot+"</td><td>"+item.date+"</td><td>"+item.todoItem+"</td><td>"+item.status+"</tr>");
 								data.push(item);
 							}
 						}
